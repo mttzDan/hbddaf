@@ -14,8 +14,30 @@
   </head>
 
   <body>
-    <audio autoplay loop src="img/Ending.mp3"></audio>
+   <div style="position: absolute; left: -9999px;">
+  <iframe 
+    id="musicaSakura"
+    width="100" 
+    height="100" 
+    src="https://www.youtube.com/embed/PsrX6zDxlAg?enablejsapi=1" 
+    frameborder="0" 
+    allow="autoplay">
+  </iframe>
+</div>
 
+<div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+  <button id="btnMusica" style="
+    background: #ff85a1; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 20px; 
+    font-family: 'Work Sans', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    🎵 Música: ON/OFF
+  </button>
+</div>
     <div class="container">
       <div class="one">
         <h1 class="one">
@@ -137,4 +159,23 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
   <script type="application/javascript" src="script/main.js"></script>
+  <script>
+  const btn = document.getElementById('btnMusica');
+  const iframe = document.getElementById('musicaSakura');
+  let tocando = false;
+
+  btn.addEventListener('click', () => {
+    if (!tocando) {
+      // Envía la orden de Play al iframe de YouTube
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      btn.innerHTML = "⏸️ Pausar Música";
+      btn.style.background = "#ccc"; // Cambia color al estar activo
+    } else {
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      btn.innerHTML = "🎵 Música: ON";
+      btn.style.background = "#ff85a1";
+    }
+    tocando = !tocando;
+  });
+</script>
 </html>
